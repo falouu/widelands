@@ -1,0 +1,23 @@
+my_build_cmd (from best to worst):
+  - fala/build.sh
+  - ./utils/macos/build_app.sh
+  - ./compile.sh --debug --clang
+  - ./compile.sh --no-website --debug --clang
+
+
+log_to_succesfull_build:
+  - c: brew install asio
+    result: it helped
+  - c: brew install libunistring
+    result: not helped
+  - c: brew install asio git cmake doxygen gettext glew graphviz icu4c jpeg \
+    libogg libpng libvorbis ninja python sdl2 sdl2_image sdl2_mixer sdl2_ttf zlib
+    result: it helped - built successfuly!
+
+
+scripting console:
+  - print(wl.Game().real_speed)
+  - player = wl.Game().players[wl.Game().interactive_player]  # me
+  - player.name
+  - send_to_inbox(player, player.name, "hello", {})
+  - whs = player:get_buildings("empire_warehouse")

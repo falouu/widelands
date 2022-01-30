@@ -8,6 +8,7 @@
 
 # the compile.sh file creates some files, links and directories
 /build
+/build_release
 /auto_dependencies
 /data/datadirversion
 update.sh
@@ -40,3 +41,7 @@ gmon.out
 # Validation checks
 po_validation
 clang-tidy.log
+
+# clion
+/cmake-build-debug
+/.idea

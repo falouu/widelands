@@ -123,6 +123,7 @@ BUILD_WEBSITE="ON"
 BUILD_TRANSLATIONS="ON"
 BUILD_TESTS="ON"
 BUILD_TYPE="Debug"
+BUILD_DIR="build"
 USE_FLTO="yes"
 USE_ASAN="default"
 USE_ASAN_DEFAULT="ON"
@@ -220,6 +221,7 @@ do
     ;;
     -r|--release)
       BUILD_TYPE="Release"
+      BUILD_DIR="build_release"
       if [ "${USE_ASAN}" = "default" ]; then
         USE_ASAN="OFF"
       fi
@@ -520,8 +522,8 @@ buildtool="" #Use ninja by default, fall back to make if that is not available.
 
   # Check if directories / links already exists and create / update them if needed.
   prepare_directories_and_links () {
-    test -d build/locale || mkdir -p build/locale
-    test -e data/locale || ln -s ../build/locale data/locale
+    test -d "$BUILD_DIR"/locale || mkdir -p "$BUILD_DIR"/locale
+    test -e data/locale || ln -s ../"$BUILD_DIR"/locale data/locale
     return 0
   }
 
@@ -546,9 +548,9 @@ buildtool="" #Use ninja by default, fall back to make if that is not available.
     mv src/widelands ../widelands
 
     if [ $BUILD_WEBSITE = "ON" ]; then
-        mv ../build/src/website/wl_create_spritesheet ../wl_create_spritesheet
-        mv ../build/src/website/wl_map_object_info ../wl_map_object_info
-        mv ../build/src/website/wl_map_info ../wl_map_info
+        mv ../"$BUILD_DIR"/src/website/wl_create_spritesheet ../wl_create_spritesheet
+        mv ../"$BUILD_DIR"/src/website/wl_map_object_info ../wl_map_object_info
+        mv ../"$BUILD_DIR"/src/website/wl_map_info ../wl_map_info
     fi
     return 0
   }
@@ -612,8 +614,8 @@ if [ $BUILD_TYPE = "Debug" -a \( $buildtool = "ninja" -o $buildtool = "ninja-bui
   utils/build_deps.py
 fi
 
-mkdir -p build
-cd build
+mkdir -p "$BUILD_DIR"
+cd "$BUILD_DIR"
 compile_widelands
 move_built_files
 cd ..
